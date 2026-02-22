@@ -8,13 +8,14 @@ import shap
 import matplotlib.pyplot as plt
 import warnings
 warnings.filterwarnings('ignore')
-print("Generating Sample Data....")
 
+#DATA GENERATION 
+print("Generating Sample Data....")
 
 np.random.seed(42)
 dates=pd.date_range(start='2022-01-01', end='2024-12-01', freq='MS')
 n=len(dates)
-#DATA GENERATION
+
 data=pd.DataFrame({
     'date': dates,
     'month': dates.month,
@@ -127,3 +128,4 @@ print(future[['date','predicted_sale']].to_string(index=False))
 total_sales=future_sales_prediction.sum()
 
 print(f">>>2026 Total sales: ${total_sales: ,.0f}")
+
