@@ -14,7 +14,7 @@ print("Generating Sample Data....")
 np.random.seed(42)
 dates=pd.date_range(start='2022-01-01', end='2024-12-01', freq='MS')
 n=len(dates)
-
+#DATA GENERATION
 data=pd.DataFrame({
     'date': dates,
     'month': dates.month,
@@ -44,6 +44,8 @@ data['sales']= data['sales'].clip(lower=0).round(0).astype(int)
 print(f" Generated {len(data)} records from {dates[0].date()} to {dates[-1].date()}")
 print(f"Sample data:\n {data.head()}")
 print(data)
+
+#FEATURE PROCESSING AND TARGET VARIABLES
 print("Feature processing and target")
 feature_column=['month','year','quarter','day_of_year','promotion','advertising_budget','holiday_season','competitor_price','price','store_traffic']
 X=data[feature_column]
@@ -51,14 +53,20 @@ Y=data['sales']
 print(f"features: {feature_column}")
 print(f" target: sales")
 print(f"X shape: {X.shape}, Y shape: {Y.shape}")
+
+#SPLITING THE DATA
 print("Split data into Training and testing sets...")
 X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
 print(f" Training set: {len(X_train)} samples")
 print(f" Testing set: {len(X_test)} samples")
-print("\n Traning the model...")
+
+#TRAINING AND TESTING THE MODEL
+print("\n Training the model...")
 model= GradientBoostingRegressor(n_estimators=100, max_depth=4, learning_rate=0.1, random_state=42)
 model.fit(X_train, y_train)
 print("Model training completed!")
+
+#MODEL EVALUATION 
 print("\n Evaluating model performance...")
 y_pred=model.predict(X_test)
 mae=mean_absolute_error(y_test,y_pred)
@@ -70,6 +78,8 @@ print("="*50)
 print(f"Mean Squared Error: ${mae:,.2f}")
 print(f"Root Mean Squared Error: ${rmse:,.2f}")
 print(f"R2 Score: {r2:,.4f}")
+
+#2025 YEAR SALES FORECASTING
 print("\n Forecasting 2025 sales...")
 future_dates= pd.date_range(start='2025-01-01', end='2025-12-01', freq='MS')
 future=pd.DataFrame({
@@ -92,7 +102,8 @@ print("="*50)
 print(future[['date','predicted_sales']].to_string(index=False))
 total_2025=future_prediction.sum()
 print(f"\n>>>Total 2025 projected sales:${total_2025:,.0f}")
-print("\n Forecasting 2025 sales...")
+
+#2026 YEAR SALES FORECASTING
 print("\n 2026 Sales Forecasting")
 future_dates=pd.date_range(start='2026-01-01', end='2026-12-01', freq='MS')
 future=pd.DataFrame({
@@ -114,4 +125,5 @@ print("2026 monthly sales")
 print('='*50)
 print(future[['date','predicted_sale']].to_string(index=False))
 total_sales=future_sales_prediction.sum()
+
 print(f">>>2026 Total sales: ${total_sales: ,.0f}")
