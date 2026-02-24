@@ -128,4 +128,27 @@ print(future[['date','predicted_sale']].to_string(index=False))
 total_sales=future_sales_prediction.sum()
 
 print(f">>>2026 Total sales: ${total_sales: ,.0f}")
+# 2027 YEAR SALES FORECASTING 
+print("\n 2027 Sales Forecast")
+future_dates=pd.date_range(start="2027-01-01", end="2027-12-01", freq="MS")
+future=pd.DataFrame({
+    'date':future_dates,
+    'month':future_dates.month,
+    'year': [2027]*12,
+    'quater': future_dates.quater,
+    'day_of_year': future_dates.dayofyear,
+    'promotion': [1,1,0,1,0,1,0,1,0,0,1,1],
+    'holiday_season': [1,0,1,0,0,1,0,0,0,1,1,0],
+    'competitor_price': [140]*12,
+    'advertising_budget':[60000]*12,
+    'price': [80]*12,
+    'store_price': [800]*12})
+future_sales_prediction=model.predict(future[feature_column])
+future['predicted_sale']=future_sales_prediction.round(0).astype(int)
+print("="*80)
+print("2027 monthly sales")
+print("="*80)
+print(future[['date'],['predicted_sale']].to_string()(index=False))
+total_sales=future_sales_prediction.sum()
+print(f">>>2027 Total Sales: ${total_sales: ,.0f}")
 
